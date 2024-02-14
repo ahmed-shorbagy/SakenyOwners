@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "1060918976348",
+    "project_id": "sakeny-40c01",
+    "storage_bucket": "sakeny-40c01.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060918976348:android:3bc43c8e37af75d8c5eb99",
+        "android_client_info": {
+          "package_name": "com.example.sakeny"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1060918976348-4ajhn7759tse2psikkj4nnti3vvev6ub.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sakeny",
+            "certificate_hash": "ad6cf327999bc22c1001578b87e88a13a16ea642"
+          }
+        },
+        {
+          "client_id": "1060918976348-kggl5rfagb99ljnmsapapftpbdg04hta.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBthz6PPxMeyTtQjN6RmAPYzmZ_lz_vVW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1060918976348-kggl5rfagb99ljnmsapapftpbdg04hta.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1060918976348-7b3gutcj3al46g9prqp40hf2h2u76rf4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sakeny"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060918976348:android:937565162dc51134c5eb99",
+        "android_client_info": {
+          "package_name": "com.example.sakeny_owners"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1060918976348-kggl5rfagb99ljnmsapapftpbdg04hta.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBthz6PPxMeyTtQjN6RmAPYzmZ_lz_vVW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1060918976348-kggl5rfagb99ljnmsapapftpbdg04hta.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1060918976348-7b3gutcj3al46g9prqp40hf2h2u76rf4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.sakeny"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
