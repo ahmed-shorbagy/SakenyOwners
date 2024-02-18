@@ -1,11 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:sakeny_owners/core/utils/size_config.dart';
 import 'package:sakeny_owners/features/Home/presentation/manager/upload_images_cubit/upload_images_cubit.dart';
-import 'package:sakeny_owners/features/Home/presentation/views/widgets/custom_button.dart';
 
 class CustomImageSelector extends StatefulWidget {
   const CustomImageSelector({Key? key}) : super(key: key);
@@ -16,50 +13,84 @@ class CustomImageSelector extends StatefulWidget {
 
 class _CustomImageSelectorState extends State<CustomImageSelector> {
   final ImagePicker imagePicker = ImagePicker();
-  List<XFile> imageFileList = [];
-  List<String> urls = [];
+
+  List<XFile> selectedImages = [];
+
   void selectImages() async {
-    final List<XFile> selectedImages = await imagePicker.pickMultiImage();
-    if (selectedImages.isNotEmpty) {
-      setState(() {
-        imageFileList.addAll(selectedImages);
-      });
-    }
+    final List<XFile> pickedImages = await imagePicker.pickMultiImage();
+    setState(() {
+      selectedImages.addAll(pickedImages);
+      UploadImagesCubit.imageFileList = selectedImages;
+    });
+  }
+
+  void removeImage(int index) {
+    setState(() {
+      selectedImages.removeAt(index);
+      UploadImagesCubit.imageFileList = selectedImages;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: selectImages,
-      child: Column(
-        children: [
-          Container(
+    return Column(
+      children: [
+        GestureDetector(
+          onTap: selectImages,
+          child: Container(
             height: MediaQuery.of(context).size.height * 0.2,
             width: double.infinity,
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary, // Placeholder color
+              color: selectedImages.isEmpty
+                  ? Theme.of(context).colorScheme.primary
+                  : null,
             ),
-            child: imageFileList.isNotEmpty
-                ? CarouselSlider.builder(
-                    itemCount: imageFileList.length,
-                    itemBuilder: (BuildContext context, int itemIndex,
-                            int pageViewIndex) =>
-                        SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.2,
-                      width: double.infinity,
-                      child: Image.file(
-                        File(imageFileList[itemIndex].path),
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                    options: CarouselOptions(
-                      viewportFraction: 0.7,
-                      autoPlay: true,
-                      enlargeCenterPage: true,
-                      animateToClosest: true,
-                    ),
+            child: selectedImages.isNotEmpty
+                ? ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: selectedImages.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Stack(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.transparent),
+                              borderRadius: BorderRadius.circular(16),
+                              image: DecorationImage(
+                                image:
+                                    FileImage(File(selectedImages[index].path)),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            height: MediaQuery.of(context).size.height * 0.2,
+                            width: MediaQuery.of(context).size.height * 0.2,
+                          ),
+                          Positioned(
+                            top: SizeConfig.defaultSize! * 1,
+                            right: SizeConfig.defaultSize! * 1,
+                            child: GestureDetector(
+                              onTap: () => removeImage(index),
+                              child: Container(
+                                padding: const EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Theme.of(context).colorScheme.surface,
+                                ),
+                                child: const Icon(
+                                  Icons.close,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
                   )
                 : Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
                         decoration: BoxDecoration(
@@ -78,28 +109,23 @@ class _CustomImageSelectorState extends State<CustomImageSelector> {
                                     .bodyLarge!
                                     .copyWith(fontWeight: FontWeight.bold),
                               ),
-                              const Icon(FontAwesomeIcons.arrowRight)
+                              const Icon(Icons.arrow_right)
                             ],
                           ),
                         ),
                       ),
-                      const Center(
-                        child: Text(
-                          'Tap to select images',
-                          style: TextStyle(fontSize: 16),
+                      const Padding(
+                        padding: EdgeInsets.only(top: 24),
+                        child: Icon(
+                          Icons.add_a_photo,
+                          size: 64,
                         ),
-                      ),
+                      )
                     ],
                   ),
           ),
-          CustomButton(
-              onPressed: () async {
-                await BlocProvider.of<UploadImagesCubit>(context)
-                    .uploadImage(images: imageFileList);
-              },
-              child: const Text('Upload')),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

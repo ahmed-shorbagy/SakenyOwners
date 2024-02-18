@@ -7,6 +7,7 @@ import 'package:sakeny_owners/features/Home/data/repos/home_repo.dart';
 part 'upload_images_state.dart';
 
 class UploadImagesCubit extends Cubit<UploadImagesState> {
+  static List<XFile> imageFileList = [];
   UploadImagesCubit(this._homRepo) : super(UploadImagesInitial());
   final HomRepo _homRepo;
 

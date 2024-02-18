@@ -1,35 +1,49 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ApartmentModel {
-  List<String> photosUrls;
-  int numberOfSingleRooms;
-  int numberOfDoubleRooms;
-  int numberOfTripleRooms;
+  int? buildingID; // Unique identifier for the apartment
+  List<String>? photosUrls;
+  int? numberOfSingleRooms;
+  int? numberOfDoubleRooms;
+  int? numberOfTripleRooms;
   double? priceOfOneBedInSingleroom;
   double? priceOfOneBedInDoubleroom;
   double? priceOfOneBedInTripleroom;
+  bool? isForMales;
 
-  ApartmentModel(
-      {required this.photosUrls,
-      required this.numberOfSingleRooms,
-      required this.numberOfDoubleRooms,
-      required this.numberOfTripleRooms,
-      this.priceOfOneBedInSingleroom,
-      this.priceOfOneBedInDoubleroom,
-      this.priceOfOneBedInTripleroom});
+  ApartmentModel({
+    this.isForMales,
+    this.buildingID,
+    this.photosUrls,
+    this.numberOfSingleRooms,
+    this.numberOfDoubleRooms,
+    this.numberOfTripleRooms,
+    this.priceOfOneBedInSingleroom,
+    this.priceOfOneBedInDoubleroom,
+    this.priceOfOneBedInTripleroom,
+  });
 
-  factory ApartmentModel.fromFireStore(Map<String, dynamic> apartment) {
+  factory ApartmentModel.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+  ) {
+    Map<String, dynamic> data = snapshot.data()!;
     return ApartmentModel(
-        photosUrls: apartment['photoUrl'],
-        numberOfSingleRooms: apartment['numberOfSingleRooms'],
-        numberOfDoubleRooms: apartment['numberOfDoubleRooms'],
-        numberOfTripleRooms: apartment['numberOfTripleRooms'],
-        priceOfOneBedInDoubleroom: apartment['priceOfOneBedInDoubleroom'],
-        priceOfOneBedInSingleroom: apartment['priceOfOneBedInSingleroom'],
-        priceOfOneBedInTripleroom: apartment['priceOfOneBedInTripleroom']);
+      buildingID: data['buildingID'],
+      isForMales: data['isForMales'],
+      photosUrls: List<String>.from(data['photoUrls'] ?? []),
+      numberOfSingleRooms: data['numberOfSingleRooms'],
+      numberOfDoubleRooms: data['numberOfDoubleRooms'],
+      numberOfTripleRooms: data['numberOfTripleRooms'],
+      priceOfOneBedInDoubleroom: data['priceOfOneBedInDoubleroom'],
+      priceOfOneBedInSingleroom: data['priceOfOneBedInSingleroom'],
+      priceOfOneBedInTripleroom: data['priceOfOneBedInTripleroom'],
+    );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      'photoUrl': photosUrls,
+      'isForMales': isForMales,
+      'photoUrls': photosUrls,
       'numberOfSingleRooms': numberOfSingleRooms,
       'numberOfDoubleRooms': numberOfDoubleRooms,
       'numberOfTripleRooms': numberOfTripleRooms,

@@ -6,20 +6,18 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sakeny_owners/core/errors/faluire.dart';
 import 'package:sakeny_owners/features/Home/data/models/apartment_model.dart';
+import 'package:sakeny_owners/features/Home/data/models/building_model.dart';
 
 class HomRepo {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  final CollectionReference _apartmentsCollection =
-      FirebaseFirestore.instance.collection('apartments');
-
   Future<Either<Faluire, void>> addNewApartmentToFireStore(
-      {required ApartmentModel apartment, required String uid}) async {
+      {required ApartmentModel apartment, required int buildingID}) async {
     try {
-      final userRef = firestore.collection('Users').doc(uid);
-      await userRef.set(apartment.toMap());
+      final apartmentRef = firestore.collection('Apartments').doc();
+      await apartmentRef.set(apartment.toMap());
       return right(null);
     } on FirebaseException catch (e) {
       return left(FirebaseFaluire.fromFireStore(e.code));
