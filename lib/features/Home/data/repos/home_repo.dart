@@ -6,7 +6,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sakeny_owners/core/errors/faluire.dart';
 import 'package:sakeny_owners/features/Home/data/models/apartment_model.dart';
-import 'package:sakeny_owners/features/Home/data/models/building_model.dart';
 
 class HomRepo {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;

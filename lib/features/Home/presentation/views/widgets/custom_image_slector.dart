@@ -47,6 +47,7 @@ class _CustomImageSelectorState extends State<CustomImageSelector> {
             ),
             child: selectedImages.isNotEmpty
                 ? ListView.builder(
+                    physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     itemCount: selectedImages.length,
                     itemBuilder: (BuildContext context, int index) {

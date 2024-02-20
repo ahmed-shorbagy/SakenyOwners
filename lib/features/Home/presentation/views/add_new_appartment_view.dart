@@ -2,17 +2,18 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sakeny_owners/core/utils/helper_methodes.dart';
 import 'package:sakeny_owners/core/utils/size_config.dart';
 import 'package:sakeny_owners/features/Home/presentation/manager/apartment_cubit/apartment_cubit.dart';
 import 'package:sakeny_owners/features/Home/presentation/manager/upload_apartment_cubit/upload_apartment_cubit.dart';
-import 'package:sakeny_owners/features/Home/presentation/manager/upload_images_cubit/upload_images_cubit.dart';
 import 'package:sakeny_owners/features/Home/presentation/views/widgets/Building_id_numberFeild.dart';
 import 'package:sakeny_owners/features/Home/presentation/views/widgets/Custom_app_bar.dart';
 import 'package:sakeny_owners/features/Home/presentation/views/widgets/custom_apartment_type_buttons.dart';
-import 'package:sakeny_owners/features/Home/presentation/views/widgets/custom_button.dart';
+import 'package:sakeny_owners/features/Home/presentation/views/widgets/custom_expansion_tile.dart';
 import 'package:sakeny_owners/features/Home/presentation/views/widgets/custom_image_slector.dart';
+import 'package:sakeny_owners/features/Home/presentation/views/widgets/custom_phoneField.dart';
 import 'package:sakeny_owners/features/Home/presentation/views/widgets/custom_row_of_inputs.dart';
+import 'package:sakeny_owners/features/Home/presentation/views/widgets/custom_underLine_textField.dart';
+import 'package:sakeny_owners/features/Home/presentation/views/widgets/upload_button_withCubitLogic.dart';
 
 class AddNewAppartmentView extends StatefulWidget {
   const AddNewAppartmentView({super.key});
@@ -52,44 +53,86 @@ class _AddNewAppartmentViewState extends State<AddNewAppartmentView> {
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     child: CustomRowOfInputs(
                         onChangedRooms: (value) {
-                          ApartmentCubit.apartment.numberOfSingleRooms =
-                              int.parse(value);
+                          ApartmentCubit.apartment.numberOfSingleBeds = value;
                         },
                         onChangedPrice: (value) {
-                          ApartmentCubit.apartment.priceOfOneBedInSingleroom =
-                              double.parse(value);
+                          ApartmentCubit.apartment.priceOfOneBedInSingleBeds =
+                              value;
+                          if (value == '0') {
+                            ApartmentCubit.apartment.type!.remove('single');
+                          } else {
+                            if (!ApartmentCubit.apartment.type!
+                                .contains('single')) {
+                              ApartmentCubit.apartment.type!.add('single');
+                            }
+                          }
                         },
-                        labelText1: 'single rooms',
+                        labelText1: 'single beds',
                         labelText2: 'Price'),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     child: CustomRowOfInputs(
                         onChangedRooms: (value) {
-                          ApartmentCubit.apartment.numberOfDoubleRooms =
-                              int.parse(value);
+                          ApartmentCubit.apartment.numberOfDoubleBeds = value;
                         },
                         onChangedPrice: (value) {
-                          ApartmentCubit.apartment.priceOfOneBedInDoubleroom =
-                              double.parse(value);
+                          ApartmentCubit.apartment.priceOfOneBedInDoubleBeds =
+                              value;
+                          if (value == '0') {
+                            ApartmentCubit.apartment.type!.remove('double');
+                          } else {
+                            if (!ApartmentCubit.apartment.type!
+                                .contains('double')) {
+                              ApartmentCubit.apartment.type!.add('double');
+                            }
+                          }
                         },
-                        labelText1: 'double rooms',
+                        labelText1: 'double beds',
                         labelText2: 'Price'),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     child: CustomRowOfInputs(
                         onChangedRooms: (value) {
-                          ApartmentCubit.apartment.numberOfTripleRooms =
-                              int.parse(value);
+                          ApartmentCubit.apartment.numberOfTripleBeds = value;
                         },
                         onChangedPrice: (value) {
-                          ApartmentCubit.apartment.priceOfOneBedInTripleroom =
-                              double.parse(value);
+                          ApartmentCubit.apartment.priceOfOneBedInTripleBeds =
+                              value;
+                          if (value == '0') {
+                            ApartmentCubit.apartment.type!.remove('triple');
+                          } else {
+                            // Check if 'triple' is already present in the type list
+                            if (!ApartmentCubit.apartment.type!
+                                .contains('triple')) {
+                              ApartmentCubit.apartment.type!.add('triple');
+                            }
+                          }
+                          log(ApartmentCubit.apartment.type.toString());
                         },
-                        labelText1: 'Triple rooms',
+                        labelText1: 'Triple beds',
                         labelText2: 'Price'),
                   ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
+                    child: CustomUnderLineTextField(
+                        onChanged: (value) {
+                          ApartmentCubit.apartment.owenrName = value;
+                        },
+                        label: 'Owner Name',
+                        suffixIcon: const Icon(Icons.center_focus_strong)),
+                  ),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 16, horizontal: 8),
+                      child: CustomPhoneField(
+                          autoValidateMode: autovalidateMode,
+                          onChanged: (value) {
+                            ApartmentCubit.apartment.ownerPhone =
+                                value?.international ?? '';
+                          })),
                   Padding(
                     padding:
                         const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
@@ -101,73 +144,22 @@ class _AddNewAppartmentViewState extends State<AddNewAppartmentView> {
                         labelText: 'Building ID',
                         icon: Icons.center_focus_strong),
                   ),
+                  CustomExpansionTile(
+                    title: 'Owner Description',
+                    onChanged: (value) {
+                      ApartmentCubit.apartment.owenrDescription = value;
+                    },
+                  ),
+                  CustomExpansionTile(
+                    title: 'User Description',
+                    onChanged: (value) {
+                      ApartmentCubit.apartment.userDescription = value;
+                    },
+                  ),
                   const AppartmentTypeButtons(),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 32, bottom: 32),
-                    child: BlocConsumer<UploadImagesCubit, UploadImagesState>(
-                      builder: (context, state) {
-                        if (state is UploadImagesLoading) {
-                          return AbsorbPointer(
-                              child: CustomButton(
-                            onPressed: () async {
-                              if (formkey.currentState!.validate()) {
-                                if (isForMales || isForFemales) {
-                                  formkey.currentState!.save();
-
-                                  await BlocProvider.of<UploadImagesCubit>(
-                                          context)
-                                      .uploadImage(
-                                          images:
-                                              UploadImagesCubit.imageFileList);
-                                } else {
-                                  snackBar(context, 'Please select the gender');
-                                }
-                              } else {
-                                autovalidateMode = AutovalidateMode.always;
-                              }
-                            },
-                            child: const Center(
-                                child: CircularProgressIndicator()),
-                          ));
-                        } else {
-                          return CustomButton(
-                              onPressed: () async {
-                                if (formkey.currentState!.validate()) {
-                                  if (isForMales || isForFemales) {
-                                    formkey.currentState!.save();
-                                    await BlocProvider.of<UploadImagesCubit>(
-                                            context)
-                                        .uploadImage(
-                                            images: UploadImagesCubit
-                                                .imageFileList);
-                                  } else {
-                                    snackBar(
-                                        context, 'Please select the gender');
-                                  }
-                                } else {
-                                  autovalidateMode = AutovalidateMode.always;
-                                }
-                              },
-                              child: Text(
-                                'Upload',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium!
-                                    .copyWith(color: Colors.white),
-                              ));
-                        }
-                      },
-                      listener: (context, state) async {
-                        if (state is UploadImagesSuccess) {
-                          ApartmentCubit.apartment.photosUrls = state.photosUrl;
-                          await BlocProvider.of<UploadApartmentCubit>(context)
-                              .addNewApartmentToFireStore(
-                                  buildingID:
-                                      ApartmentCubit.apartment.buildingID!,
-                                  apartment: ApartmentCubit.apartment);
-                        }
-                      },
-                    ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 32, bottom: 32),
+                    child: UploadButtonWithCubitLogic(),
                   )
                 ],
               ),
