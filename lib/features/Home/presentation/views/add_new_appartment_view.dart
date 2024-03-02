@@ -119,7 +119,7 @@ class _AddNewAppartmentViewState extends State<AddNewAppartmentView> {
                         const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
                     child: CustomUnderLineTextField(
                         onChanged: (value) {
-                          ApartmentCubit.apartment.owenrName = value;
+                          ApartmentCubit.apartment.ownerName = value;
                         },
                         label: 'Owner Name',
                         suffixIcon: const Icon(Icons.center_focus_strong)),
@@ -147,7 +147,7 @@ class _AddNewAppartmentViewState extends State<AddNewAppartmentView> {
                   CustomExpansionTile(
                     title: 'Owner Description',
                     onChanged: (value) {
-                      ApartmentCubit.apartment.owenrDescription = value;
+                      ApartmentCubit.apartment.ownerDescription = value;
                     },
                   ),
                   CustomExpansionTile(

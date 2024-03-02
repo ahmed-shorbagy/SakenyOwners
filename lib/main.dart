@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:sakeny_owners/core/errors/simple_bloc_observer.dart';
 import 'package:sakeny_owners/core/theme/theme_manager.dart';
 import 'package:sakeny_owners/core/utils/App_router.dart';
+import 'package:sakeny_owners/core/utils/firebase_messaging_api.dart';
 import 'package:sakeny_owners/core/utils/service_locator.dart';
 import 'package:sakeny_owners/firebase_options.dart';
 
@@ -14,7 +15,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  await FireBaseAPi().initNotifications();
   setupServiceLocator();
 
   runApp(ChangeNotifierProvider(

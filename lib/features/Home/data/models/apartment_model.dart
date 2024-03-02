@@ -11,17 +11,17 @@ class ApartmentModel {
   String? priceOfOneBedInTripleBeds;
   bool? isForMales;
   Timestamp? time;
-  String? owenrName;
+  String? ownerName; // Corrected spelling
   String? ownerPhone;
-  String? owenrDescription;
+  String? ownerDescription;
   String? userDescription;
-  List<String>? type;
+  List<dynamic>? type;
 
   ApartmentModel({
-    this.owenrName,
+    this.ownerName, // Corrected spelling
     this.type,
     this.ownerPhone,
-    this.owenrDescription,
+    this.ownerDescription,
     this.userDescription,
     this.time,
     this.isForMales,
@@ -35,14 +35,11 @@ class ApartmentModel {
     this.priceOfOneBedInTripleBeds,
   });
 
-  factory ApartmentModel.fromFirestore(
-    DocumentSnapshot<Map<String, dynamic>> snapshot,
-  ) {
-    Map<String, dynamic> data = snapshot.data()!;
+  factory ApartmentModel.fromFirestore(Map<String, dynamic> data) {
     return ApartmentModel(
       type: data['type'],
-      owenrDescription: data['owenrDescription'],
-      owenrName: data['owenrName'],
+      ownerDescription: data['ownerDescription'],
+      ownerName: data['ownerName'], // Corrected spelling
       ownerPhone: data['ownerPhone'],
       userDescription: data['userDescription'],
       buildingID: data['buildingID'],
@@ -61,9 +58,9 @@ class ApartmentModel {
   Map<String, dynamic> toMap() {
     return {
       'type': type,
-      'owenrName': owenrName,
+      'ownerName': ownerName, // Corrected spelling
       'ownerPhone': ownerPhone,
-      'owenrDescription': owenrDescription,
+      'ownerDescription': ownerDescription,
       'userDescription': userDescription,
       'isForMales': isForMales,
       'photoUrls': photosUrls,
