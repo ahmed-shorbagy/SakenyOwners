@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sakeny_owners/core/errors/faluire.dart';
 import 'package:sakeny_owners/features/Home/data/models/apartment_model.dart';
+import 'package:sakeny_owners/features/Home/data/models/requset_model.dart';
 
 class HomRepo {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -36,5 +37,23 @@ class HomRepo {
     }
 
     return photoUrls;
+  }
+
+  Future<Either<Faluire, List<RequestModel>>> fetchRequests(
+      {required Query query}) async {
+    try {
+      final QuerySnapshot querySnapshot = await query.get();
+
+      final List<RequestModel> requests = [];
+      for (final doc in querySnapshot.docs) {
+        requests.add(RequestModel.fromFirestore(
+            doc as DocumentSnapshot<Map<String, dynamic>>));
+      }
+
+      return Right(requests);
+    } on FirebaseException catch (e) {
+      // Handle Firebase exception
+      return left(FirebaseFaluire.fromFireStore(e.code));
+    }
   }
 }

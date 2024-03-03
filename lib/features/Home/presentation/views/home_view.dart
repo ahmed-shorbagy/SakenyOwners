@@ -1,10 +1,10 @@
-import 'dart:developer';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_icon_class/font_awesome_icon_class.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sakeny_owners/core/utils/App_router.dart';
-import 'package:sakeny_owners/core/utils/firebase_messaging_api.dart';
+import 'package:sakeny_owners/features/Home/data/models/requset_model.dart';
+
+import 'package:sakeny_owners/features/Home/presentation/views/widgets/custom_list_itme.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -12,18 +12,63 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await FireBaseAPi().sendMessage(
-              title: 'test', messageBody: 'This is the frist succes test');
-          GoRouter.of(context).push(AppRouter.kAddNewAppartmentView);
-        },
+      appBar: AppBar(
+        title: const Text('Hello my Owner ❤️'),
+        backgroundColor: Colors.transparent,
+        centerTitle: true,
+        bottomOpacity: 2.5,
         elevation: 2.5,
-        child: Icon(
-          FontAwesomeIcons.plus,
-          color: Theme.of(context).colorScheme.outline,
-        ),
+      ),
+      body: StreamBuilder<List<RequestModel>>(
+        stream: _fetchRentalRequests(), // Stream of rental requests
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          }
+
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          List<RequestModel>? requests = snapshot.data;
+          if (requests == null || requests.isEmpty) {
+            return const Center(child: Text('No rental requests found.'));
+          }
+
+          return ListView.builder(
+            itemCount: requests.length,
+            itemBuilder: (context, index) {
+              final request = requests[index];
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                child: CustomListItem(
+                  request: request,
+                  onTap: () {
+                    GoRouter.of(context)
+                        .push(AppRouter.kRequestDetailsView, extra: request);
+                  },
+                ),
+              );
+            },
+          );
+        },
       ),
     );
+  }
+
+  Stream<List<RequestModel>> _fetchRentalRequests() {
+    // Assuming you have a Firestore collection named 'requests'
+    // where each document represents a rental request
+
+    // Replace 'requests' with your actual Firestore collection name
+    // Also, adjust the query as per your Firestore database structure
+    return FirebaseFirestore.instance
+        .collection('Requests')
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((doc) {
+              // Convert each document to a RequestModel object
+              return RequestModel.fromFirestore(doc);
+            }).toList());
   }
 }
