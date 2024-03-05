@@ -54,6 +54,13 @@ class HomeView extends StatelessWidget {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton(
+          elevation: 7,
+          shape: const CircleBorder(),
+          onPressed: () {
+            GoRouter.of(context).push(AppRouter.kAddNewAppartmentView);
+          },
+          child: const Icon(Icons.add)),
     );
   }
 
