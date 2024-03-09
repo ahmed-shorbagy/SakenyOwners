@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -23,7 +25,10 @@ class HomeView extends StatelessWidget {
         stream: _fetchRentalRequests(), // Stream of rental requests
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            log(snapshot.error.toString());
+            return const Center(
+                child:
+                    Text('Error: some thing is wrong please come back later'));
           }
 
           if (snapshot.connectionState == ConnectionState.waiting) {

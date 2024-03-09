@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:sakeny_owners/features/Home/data/models/requset_model.dart';
 import 'package:sakeny_owners/features/Home/presentation/views/widgets/Custom_app_bar%20copy.dart';
@@ -137,6 +140,54 @@ class RequestDetailsView extends StatelessWidget {
                       .copyWith(fontWeight: FontWeight.bold),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                child: Text(
+                  'bed Type : ${request.bedType.name}',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(fontWeight: FontWeight.bold),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                child: ElevatedButton(
+                  onPressed: () async {
+                    if (request.bedType.name == 'single') {
+                      log(request.apartment.apartmentID.toString());
+                      await FirebaseFirestore.instance
+                          .collection('Apartments')
+                          .doc(request.apartment.apartmentID)
+                          .update(
+                              {'numberOfSingleBeds': FieldValue.increment(-1)});
+                    } else if (request.bedType.name == 'doublee') {
+                      log(request.apartment.apartmentID.toString());
+                      await FirebaseFirestore.instance
+                          .collection('Apartments')
+                          .doc(request.apartment.apartmentID)
+                          .update(
+                              {'numberOfDoubleBeds': FieldValue.increment(-1)});
+                    } else if (request.bedType.name == 'triple') {
+                      log(request.apartment.apartmentID.toString());
+                      await FirebaseFirestore.instance
+                          .collection('Apartments')
+                          .doc(request.apartment.apartmentID)
+                          .update(
+                              {'numberOfTripleBeds': FieldValue.increment(-1)});
+                    }
+                  },
+                  child:
+                      const Text('click here only if the bed already rented'),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Reject'),
+                ),
+              )
             ],
           ),
         ),

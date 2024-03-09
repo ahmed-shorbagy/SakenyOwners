@@ -24,7 +24,7 @@ class RequestModel {
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
     Map<String, dynamic> data = snapshot.data()!;
     return RequestModel(
-        apartment: ApartmentModel.fromFirestore(data['apartment']),
+        apartment: ApartmentModel.fromFirestore(data['apartment'], snapshot.id),
         user: UserModel.fromFirestore(data['user']),
         bedType: _parseBedType(data['bedType']),
         requestTime: data['requestTime'] // Parse bed type from Firestore data

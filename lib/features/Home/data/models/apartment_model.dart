@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ApartmentModel {
-  int? buildingID; // Unique identifier for the apartment
+  int? buildingID;
+  String? apartmentID; // Unique identifier for the apartment
   List<String>? photosUrls;
   String? numberOfSingleBeds;
   String? numberOfDoubleBeds;
@@ -17,27 +18,29 @@ class ApartmentModel {
   String? userDescription;
   List<dynamic>? type;
 
-  ApartmentModel({
-    this.ownerName, // Corrected spelling
-    this.type,
-    this.ownerPhone,
-    this.ownerDescription,
-    this.userDescription,
-    this.time,
-    this.isForMales,
-    this.buildingID,
-    this.photosUrls,
-    this.numberOfSingleBeds,
-    this.numberOfDoubleBeds,
-    this.numberOfTripleBeds,
-    this.priceOfOneBedInSingleBeds,
-    this.priceOfOneBedInDoubleBeds,
-    this.priceOfOneBedInTripleBeds,
-  });
+  ApartmentModel(
+      {this.ownerName, // Corrected spelling
+      this.type,
+      this.ownerPhone,
+      this.ownerDescription,
+      this.userDescription,
+      this.time,
+      this.isForMales,
+      this.buildingID,
+      this.photosUrls,
+      this.numberOfSingleBeds,
+      this.numberOfDoubleBeds,
+      this.numberOfTripleBeds,
+      this.priceOfOneBedInSingleBeds,
+      this.priceOfOneBedInDoubleBeds,
+      this.priceOfOneBedInTripleBeds,
+      this.apartmentID});
 
-  factory ApartmentModel.fromFirestore(Map<String, dynamic> data) {
+  factory ApartmentModel.fromFirestore(
+      Map<String, dynamic> data, String documentId) {
     return ApartmentModel(
       type: data['type'],
+      apartmentID: documentId,
       ownerDescription: data['ownerDescription'],
       ownerName: data['ownerName'], // Corrected spelling
       ownerPhone: data['ownerPhone'],
