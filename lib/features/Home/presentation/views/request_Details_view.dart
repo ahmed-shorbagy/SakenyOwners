@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:sakeny_owners/features/Home/data/models/requset_model.dart';
 import 'package:sakeny_owners/features/Home/presentation/views/widgets/Custom_app_bar%20copy.dart';
 import 'package:sakeny_owners/features/Home/presentation/views/widgets/Custom_app_bar.dart';
@@ -206,7 +207,13 @@ class RequestDetailsView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await FirebaseFirestore.instance
+                        .collection('Requests')
+                        .doc(request.requestID)
+                        .delete();
+                    GoRouter.of(context).pop();
+                  },
                   child: const Text('Reject'),
                 ),
               )
