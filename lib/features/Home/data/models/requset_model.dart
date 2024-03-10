@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:sakeny_owners/features/Home/data/models/apartment_model.dart';
 import 'package:sakeny_owners/features/Home/data/models/user_model.dart';
 
@@ -24,7 +25,7 @@ class RequestModel {
       DocumentSnapshot<Map<String, dynamic>> snapshot) {
     Map<String, dynamic> data = snapshot.data()!;
     return RequestModel(
-        apartment: ApartmentModel.fromFirestore(data['apartment'], snapshot.id),
+        apartment: ApartmentModel.fromFirestore(data['apartment']),
         user: UserModel.fromFirestore(data['user']),
         bedType: _parseBedType(data['bedType']),
         requestTime: data['requestTime'] // Parse bed type from Firestore data
@@ -33,7 +34,7 @@ class RequestModel {
 
   Map<String, dynamic> toMap() {
     return {
-      'apartment': apartment.toMap(),
+      'apartment': apartment.toMap(docID: apartment.apartmentID ?? ''),
       'user': user.toMap(),
       'bedType': _encodeBedType(bedType),
       'requestTime': requestTime

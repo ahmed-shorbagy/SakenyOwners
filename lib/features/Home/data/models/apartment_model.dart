@@ -37,10 +37,11 @@ class ApartmentModel {
       this.apartmentID});
 
   factory ApartmentModel.fromFirestore(
-      Map<String, dynamic> data, String documentId) {
+    Map<String, dynamic> data,
+  ) {
     return ApartmentModel(
       type: data['type'],
-      apartmentID: documentId,
+      apartmentID: data['apartmentID'],
       ownerDescription: data['ownerDescription'],
       ownerName: data['ownerName'], // Corrected spelling
       ownerPhone: data['ownerPhone'],
@@ -58,9 +59,10 @@ class ApartmentModel {
     );
   }
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toMap({required String docID}) {
     return {
       'type': type,
+      'apartmentID': docID,
       'ownerName': ownerName, // Corrected spelling
       'ownerPhone': ownerPhone,
       'ownerDescription': ownerDescription,

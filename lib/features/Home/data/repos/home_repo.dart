@@ -17,7 +17,7 @@ class HomRepo {
       {required ApartmentModel apartment, required int buildingID}) async {
     try {
       final apartmentRef = firestore.collection('Apartments').doc();
-      await apartmentRef.set(apartment.toMap());
+      await apartmentRef.set(apartment.toMap(docID: apartmentRef.id));
       return right(null);
     } on FirebaseException catch (e) {
       return left(FirebaseFaluire.fromFireStore(e.code));

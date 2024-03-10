@@ -77,6 +77,7 @@ class HomeView extends StatelessWidget {
     // Also, adjust the query as per your Firestore database structure
     return FirebaseFirestore.instance
         .collection('Requests')
+        .orderBy('requestTime', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs.map((doc) {
               // Convert each document to a RequestModel object
