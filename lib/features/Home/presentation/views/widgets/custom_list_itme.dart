@@ -30,11 +30,14 @@ class CustomListItem extends StatelessWidget {
                   height: 100,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    image: DecorationImage(
-                      image: CachedNetworkImageProvider(
-                          request.apartment.photosUrls?.first ?? ''),
-                      fit: BoxFit.cover,
-                    ),
+                    image: request.apartment.photosUrls != null &&
+                            request.apartment.photosUrls!.isNotEmpty
+                        ? DecorationImage(
+                            image: CachedNetworkImageProvider(
+                                request.apartment.photosUrls!.first),
+                            fit: BoxFit.cover,
+                          )
+                        : null, // If photosUrls is empty or null, do not set image
                   ),
                 ),
               ),

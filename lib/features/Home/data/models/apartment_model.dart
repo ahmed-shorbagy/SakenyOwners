@@ -7,9 +7,9 @@ class ApartmentModel {
   String? numberOfSingleBeds;
   String? numberOfDoubleBeds;
   String? numberOfTripleBeds;
-  String? priceOfOneBedInSingleBeds;
-  String? priceOfOneBedInDoubleBeds;
-  String? priceOfOneBedInTripleBeds;
+  num? priceOfOneBedInSingleBeds;
+  num? priceOfOneBedInDoubleBeds;
+  num? priceOfOneBedInTripleBeds;
   bool? isForMales;
   Timestamp? time;
   String? ownerName; // Corrected spelling

@@ -56,8 +56,10 @@ class _AddNewAppartmentViewState extends State<AddNewAppartmentView> {
                           ApartmentCubit.apartment.numberOfSingleBeds = value;
                         },
                         onChangedPrice: (value) {
-                          ApartmentCubit.apartment.priceOfOneBedInSingleBeds =
-                              value;
+                          if (value.isNotEmpty) {
+                            ApartmentCubit.apartment.priceOfOneBedInSingleBeds =
+                                num.parse(value);
+                          }
                           if (value == '0') {
                             ApartmentCubit.apartment.type!.remove('single');
                           } else {
@@ -77,8 +79,10 @@ class _AddNewAppartmentViewState extends State<AddNewAppartmentView> {
                           ApartmentCubit.apartment.numberOfDoubleBeds = value;
                         },
                         onChangedPrice: (value) {
-                          ApartmentCubit.apartment.priceOfOneBedInDoubleBeds =
-                              value;
+                          if (value.isNotEmpty) {
+                            ApartmentCubit.apartment.priceOfOneBedInDoubleBeds =
+                                num.parse(value);
+                          }
                           if (value == '0') {
                             ApartmentCubit.apartment.type!.remove('double');
                           } else {
@@ -98,8 +102,10 @@ class _AddNewAppartmentViewState extends State<AddNewAppartmentView> {
                           ApartmentCubit.apartment.numberOfTripleBeds = value;
                         },
                         onChangedPrice: (value) {
-                          ApartmentCubit.apartment.priceOfOneBedInTripleBeds =
-                              value;
+                          if (value.isNotEmpty) {
+                            ApartmentCubit.apartment.priceOfOneBedInTripleBeds =
+                                num.parse(value);
+                          }
                           if (value == '0') {
                             ApartmentCubit.apartment.type!.remove('triple');
                           } else {
@@ -138,8 +144,10 @@ class _AddNewAppartmentViewState extends State<AddNewAppartmentView> {
                         const EdgeInsets.symmetric(vertical: 16, horizontal: 8),
                     child: BuildingIdNumberField(
                         onChanged: (value) {
-                          ApartmentCubit.apartment.buildingID =
-                              int.parse(value);
+                          if (value.isNotEmpty) {
+                            ApartmentCubit.apartment.buildingID =
+                                int.parse(value);
+                          }
                         },
                         labelText: 'Building ID',
                         icon: Icons.center_focus_strong),

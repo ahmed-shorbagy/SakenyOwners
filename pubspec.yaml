@@ -49,9 +49,9 @@ dependencies:
   google_fonts: ^6.1.0
   google_sign_in: null
   googleapis_auth: null
-
   http: ^1.2.0
   image_picker: ^1.0.7
+  intl: 0.18.1
   phone_form_field: ^8.1.1
   provider: ^6.1.1
 dev_dependencies:
