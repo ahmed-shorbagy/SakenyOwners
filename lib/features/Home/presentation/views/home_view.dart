@@ -60,6 +60,7 @@ class HomeView extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.deepPurpleAccent,
           elevation: 7,
           shape: const CircleBorder(),
           onPressed: () {

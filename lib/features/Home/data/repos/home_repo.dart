@@ -56,4 +56,45 @@ class HomRepo {
       return left(FirebaseFaluire.fromFireStore(e.code));
     }
   }
+
+  // Function to delete images from Firebase Storage
+  // Function to delete images from Firebase Storage// Function to delete images from Firebase Storage
+  Future<void> deleteImages(List<String>? photoUrls) async {
+    if (photoUrls != null) {
+      for (String url in photoUrls) {
+        // Extract file name from URL
+        String fileName =
+            Uri.decodeComponent(url.split('/').last.split('?').first);
+        Reference storageRef = _storage.ref().child(fileName);
+
+        try {
+          // Retrieve metadata to check if the object exists
+          final metadata = await storageRef.getMetadata();
+
+          // If metadata retrieval is successful, the object exists
+          // Otherwise, it will throw an error, and we'll handle it below
+          // Delete the file if it exists
+          await storageRef.delete();
+        } catch (e) {
+          // If an error occurs, handle it here
+        }
+      }
+    }
+  }
+
+// Function to delete document and corresponding images
+  Future<void> deleteRequestAndImages(RequestModel request) async {
+    try {
+      // Delete images from Firebase Storage
+      await deleteImages(request.apartment.photosUrls);
+
+      // Delete the document from Firestore
+      await FirebaseFirestore.instance
+          .collection('Requests')
+          .doc(request.requestID)
+          .delete();
+    } catch (e) {
+      // Handle error if necessary
+    }
+  }
 }

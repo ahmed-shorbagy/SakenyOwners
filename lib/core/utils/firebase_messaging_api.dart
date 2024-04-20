@@ -49,10 +49,7 @@ class FireBaseAPi {
     final resBody = await res.stream.bytesToString();
 
     if (res.statusCode >= 200 && res.statusCode < 300) {
-      print(resBody);
-    } else {
-      print(res.reasonPhrase);
-    }
+    } else {}
   }
 }
 
